@@ -46,10 +46,11 @@ const CaseTablePage = (props: TableProps) => {
     {
       field: 'actions',
       headerName: 'Action',
-      width: 150,
+      width: 200,
       sortable: false,
       filterable: false,
       disableExport: true,
+      align: 'center',
       renderCell: (params) => (
         <div style={{ display: 'flex', alignItems: 'center' }}></div>
       ),

@@ -14,7 +14,8 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import PendingOutlinedIcon from '@mui/icons-material/PendingOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
-import { StyledLink } from '../styles/styles';
+import { StyledLink, StyledLinkButton } from '../styles/styles';
+import { useLocation } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -40,6 +41,22 @@ const drawerArray = [
     path: '/rejected',
   },
 ];
+
+const DrawerItem = ({ item }: { item: typeof drawerArray[0] }) => {
+  const location = useLocation();
+  const isSelected = location.pathname === item.path;
+
+  return (
+    <ListItem key={item.label} disablePadding>
+    <StyledLink to={item.path}>
+    <StyledLinkButton isSelected={isSelected}>
+      <ListItemIcon>{item.icon}</ListItemIcon>
+      <ListItemText primary={item.label} />
+      </StyledLinkButton>
+    </StyledLink>   
+</ListItem>
+  );
+};
 
 const SideBar = () => {
   return (
@@ -67,14 +84,7 @@ const SideBar = () => {
         <Toolbar />
         <List>
           {drawerArray.map((item) => (
-            <ListItem key={item.label} disablePadding>
-              <ListItemButton>
-                <StyledLink to={item.path}>
-                  <ListItemIcon>{item.icon}</ListItemIcon>
-                  <ListItemText primary={item.label} />
-                </StyledLink>
-              </ListItemButton>
-            </ListItem>
+            <DrawerItem key={item.label} item={item} />
           ))}
         </List>
       </Drawer>
