@@ -14,6 +14,14 @@ export interface CasesState {
     pageSize: number;
   }) => void;
   setSearchTerm: (searchTerm: string) => void;
+  sortModal: {
+    sort: string;
+    order: 'asc' | 'desc' | '';
+  };
+  setSortModal: (sortModal: {
+    sort: string;
+    order: 'asc' | 'desc' | '';
+  }) => void;
 }
 
 export const useCaseStore = create<CasesState>((set) => ({
@@ -26,4 +34,9 @@ export const useCaseStore = create<CasesState>((set) => ({
   setPaginationModal: (paginationModal) => set({ paginationModal }),
   searchTerm: '',
   setSearchTerm: (searchTerm) => set({ searchTerm }),
+  sortModal: {
+    sort: '',
+    order: '',
+  },
+  setSortModal: (sortModal) => set({ sortModal }),
 }));

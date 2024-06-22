@@ -33,7 +33,6 @@ export const tableColumns: GridColDef[] = [
     headerName: 'ASSIGNEE',
     width: 300,
     editable: false,
-    sortable: false,
     filterable: true,
   },
   {
@@ -41,7 +40,6 @@ export const tableColumns: GridColDef[] = [
     headerName: 'DESCRIPTION',
     // flex: 1,
     editable: false,
-    sortable: false,
     filterable: false,
     width: 300,
   },
@@ -68,7 +66,6 @@ export const tableColumns: GridColDef[] = [
     editable: false,
     align: 'left',
     headerAlign: 'left',
-    sortable: false,
     filterable: false,
   },
   {
@@ -78,7 +75,6 @@ export const tableColumns: GridColDef[] = [
     editable: false,
     align: 'left',
     headerAlign: 'left',
-    sortable: false,
     filterable: false,
   },
 ];

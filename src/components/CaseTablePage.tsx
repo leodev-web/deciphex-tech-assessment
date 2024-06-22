@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridSortModel } from '@mui/x-data-grid';
 import { tableColumns } from '../types/columns';
 import TableToolBar from './TableToolBar';
 import { fetchData } from '../utils/api';
@@ -29,6 +29,7 @@ const CaseTablePage = (props: TableProps) => {
   const setCases = useCaseStore((state) => state.setCases);
   const setPaginationModal = useCaseStore((state) => state.setPaginationModal);
   const searchTerm = useCaseStore((state) => state.searchTerm);
+  const { sortModal, setSortModal } = useCaseStore((state) => state);
 
   // const [paginationModal, setPaginationModal] = useState({
   //   page: 0,
@@ -52,11 +53,13 @@ const CaseTablePage = (props: TableProps) => {
       page: page + 1,
       pageSize,
       ...(status && { status }),
-      ...(searchTerm && { search: searchTerm })
+      ...(searchTerm && { search: searchTerm }),
+      ...(sortModal.sort &&
+        sortModal.order && { sort: sortModal.sort, order: sortModal.order }),
     }).then((res: CasesResponse) => {
       setCases(res);
     });
-  }, [paginationModal, status, searchTerm]);
+  }, [paginationModal, status, searchTerm, sortModal]);
 
   const columns: GridColDef[] = [
     ...tableColumns,
@@ -74,7 +77,12 @@ const CaseTablePage = (props: TableProps) => {
     },
   ];
 
-  console.log('paginationModal', paginationModal, 'cases', cases);
+  const handleSortModelChange = (model: GridSortModel): void => {
+    setSortModal({
+      sort: model?.[0]?.field || '',
+      order: model?.[0]?.sort || '',
+    });
+  };
 
   return (
     <Box sx={{ width: '95%', mt: 1 }}>
@@ -94,6 +102,8 @@ const CaseTablePage = (props: TableProps) => {
         paginationMode="server"
         rowHeight={rowHeight}
         sx={{ width: '85%', overflow: 'auto' }}
+        sortingMode="server"
+        onSortModelChange={handleSortModelChange}
         // columnVisibilityModel={initialColumnVisibilityModel}
       />
     </Box>
