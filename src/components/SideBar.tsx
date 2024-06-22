@@ -42,6 +42,7 @@ const drawerArray = [
   },
 ];
 
+
 const DrawerItem = ({ item }: { item: typeof drawerArray[0] }) => {
   const location = useLocation();
   const isSelected = location.pathname === item.path;
@@ -76,7 +77,6 @@ const SideBar = () => {
             backgroundColor: '#F4F7FC',
             color: '#2E3B52',
           },
-          backgroundColor: 'red',
         }}
         variant="permanent"
         anchor="left"
