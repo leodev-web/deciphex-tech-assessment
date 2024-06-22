@@ -4,8 +4,9 @@ export const fetchData = async (params: {
   page: number;
   pageSize: number;
   status?: string;
+  search?: string;
 }) => {
-  const { page, pageSize, status } = params;
+  const { page, pageSize, status , search} = params;
   const url = 'http://localhost:3000/requests';
   try {
     const res = await axios.get(url, {
@@ -13,6 +14,7 @@ export const fetchData = async (params: {
         page: page,
         limit: pageSize,
         ...(status && { status }),
+        ...(search && { search }),
       },
     });
     return res.data;

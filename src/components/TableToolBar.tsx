@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import { StyledTextField } from '../styles/styles';
 import { Button } from '@mui/material';
+import { useCaseStore } from '../utils/store';
 
 const TableToolBar = () => {
+  const [val, setVal] = useState<string>('');
+  const { setSearchTerm } = useCaseStore((state) => state);
+  const { setPaginationModal } = useCaseStore((state) => state);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setVal(event.target.value);
+  };
+
+  const onClick = () => {
+    setPaginationModal({ page: 0, pageSize: 10 });
+    setSearchTerm(val);
+  };
+
   return (
     <div
       style={{
@@ -30,8 +43,14 @@ const TableToolBar = () => {
               </InputAdornment>
             ),
           }}
+          value={val}
+          onChange={handleChange}
         />
-        <Button variant="contained" style={{ height: '38px' }}>
+        <Button
+          variant="contained"
+          style={{ height: '38px' }}
+          onClick={onClick}
+        >
           Search
         </Button>
       </div>

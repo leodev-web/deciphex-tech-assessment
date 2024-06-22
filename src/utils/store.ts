@@ -7,11 +7,13 @@ export interface CasesState {
     page: number;
     pageSize: number;
   };
+  searchTerm: string;
   setCases: (cases: CasesResponse | null) => void;
   setPaginationModal: (paginationModal: {
     page: number;
     pageSize: number;
   }) => void;
+  setSearchTerm: (searchTerm: string) => void;
 }
 
 export const useCaseStore = create<CasesState>((set) => ({
@@ -22,4 +24,6 @@ export const useCaseStore = create<CasesState>((set) => ({
     pageSize: 10,
   },
   setPaginationModal: (paginationModal) => set({ paginationModal }),
+  searchTerm: '',
+  setSearchTerm: (searchTerm) => set({ searchTerm }),
 }));

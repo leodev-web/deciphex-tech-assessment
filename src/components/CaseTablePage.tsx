@@ -28,6 +28,7 @@ const CaseTablePage = (props: TableProps) => {
   const paginationModal = useCaseStore((state) => state.paginationModal);
   const setCases = useCaseStore((state) => state.setCases);
   const setPaginationModal = useCaseStore((state) => state.setPaginationModal);
+  const searchTerm = useCaseStore((state) => state.searchTerm);
 
   // const [paginationModal, setPaginationModal] = useState({
   //   page: 0,
@@ -51,10 +52,11 @@ const CaseTablePage = (props: TableProps) => {
       page: page + 1,
       pageSize,
       ...(status && { status }),
+      ...(searchTerm && { search: searchTerm })
     }).then((res: CasesResponse) => {
       setCases(res);
     });
-  }, [paginationModal, status]);
+  }, [paginationModal, status, searchTerm]);
 
   const columns: GridColDef[] = [
     ...tableColumns,
