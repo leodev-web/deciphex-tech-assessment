@@ -13,11 +13,6 @@ type TableProps = {
   tabelType: string;
 };
 
-const initialColumnVisibilityModel = {
-  status: false,
-  type: false,
-  lastUpdated: false,
-};
 
 const rowHeight = 50;
 const CaseTablePage = (props: TableProps) => {
@@ -30,6 +25,7 @@ const CaseTablePage = (props: TableProps) => {
   const setPaginationModal = useCaseStore((state) => state.setPaginationModal);
   const searchTerm = useCaseStore((state) => state.searchTerm);
   const { sortModal, setSortModal } = useCaseStore((state) => state);
+  const {columnVisibilityModal} = useCaseStore((state) => state);
 
   // const [paginationModal, setPaginationModal] = useState({
   //   page: 0,
@@ -85,7 +81,7 @@ const CaseTablePage = (props: TableProps) => {
   };
 
   return (
-    <Box sx={{ width: '95%', mt: 1 }}>
+    <Box sx={{ width: '95%', mt: 1  }}>
       <h5>{tabelType}</h5>
       <TableToolBar />
       <DataGrid
@@ -104,7 +100,7 @@ const CaseTablePage = (props: TableProps) => {
         sx={{ width: '85%', overflow: 'auto' }}
         sortingMode="server"
         onSortModelChange={handleSortModelChange}
-        // columnVisibilityModel={initialColumnVisibilityModel}
+        columnVisibilityModel={columnVisibilityModal}
       />
     </Box>
   );

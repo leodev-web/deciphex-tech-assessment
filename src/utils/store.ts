@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { CasesResponse } from '../types/types';
+import { initialColumnVisibilityModel } from '../types/constants';
 
 export interface CasesState {
   cases: CasesResponse | null;
@@ -22,6 +23,8 @@ export interface CasesState {
     sort: string;
     order: 'asc' | 'desc' | '';
   }) => void;
+  columnVisibilityModal: Record<string, boolean>;
+  setcolumnVisibilityModal: (visibilityModal: Record<string, boolean>) => void;
 }
 
 export const useCaseStore = create<CasesState>((set) => ({
@@ -39,4 +42,6 @@ export const useCaseStore = create<CasesState>((set) => ({
     order: '',
   },
   setSortModal: (sortModal) => set({ sortModal }),
+  columnVisibilityModal: initialColumnVisibilityModel,
+  setcolumnVisibilityModal: (columnVisibilityModal) => set({ columnVisibilityModal }),
 }));

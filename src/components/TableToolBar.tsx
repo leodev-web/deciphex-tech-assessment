@@ -3,13 +3,16 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import { StyledTextField } from '../styles/styles';
-import { Button } from '@mui/material';
+import { Button, ButtonGroup, ClickAwayListener, Grow, MenuItem, MenuList, Paper, Popper } from '@mui/material';
 import { useCaseStore } from '../utils/store';
+import BatchUpdateComponent from './BatchUpdateComponent';
+import SelectColumns from './SelectColumns';
 
 const TableToolBar = () => {
   const [val, setVal] = useState<string>('');
   const { setSearchTerm } = useCaseStore((state) => state);
   const { setPaginationModal } = useCaseStore((state) => state);
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setVal(event.target.value);
   };
@@ -18,6 +21,7 @@ const TableToolBar = () => {
     setPaginationModal({ page: 0, pageSize: 10 });
     setSearchTerm(val);
   };
+
 
   return (
     <div
@@ -54,7 +58,10 @@ const TableToolBar = () => {
           Search
         </Button>
       </div>
-      <div style={{ marginBottom: '10px' }}></div>
+      <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <BatchUpdateComponent />
+          <SelectColumns />
+      </div>
     </div>
   );
 };
