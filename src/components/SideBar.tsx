@@ -6,7 +6,6 @@ import {
   Toolbar,
   List,
   ListItem,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
@@ -42,20 +41,19 @@ const drawerArray = [
   },
 ];
 
-
-const DrawerItem = ({ item }: { item: typeof drawerArray[0] }) => {
+const DrawerItem = ({ item }: { item: (typeof drawerArray)[0] }) => {
   const location = useLocation();
   const isSelected = location.pathname === item.path;
 
   return (
     <ListItem key={item.label} disablePadding>
-    <StyledLink to={item.path}>
-    <StyledLinkButton isSelected={isSelected}>
-      <ListItemIcon>{item.icon}</ListItemIcon>
-      <ListItemText primary={item.label} />
-      </StyledLinkButton>
-    </StyledLink>   
-</ListItem>
+      <StyledLink to={item.path}>
+        <StyledLinkButton isSelected={isSelected}>
+          <ListItemIcon>{item.icon}</ListItemIcon>
+          <ListItemText primary={item.label} />
+        </StyledLinkButton>
+      </StyledLink>
+    </ListItem>
   );
 };
 

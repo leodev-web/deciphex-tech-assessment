@@ -1,4 +1,4 @@
-import { ListItemButton } from '@mui/material';
+import { ListItemButton, TextField } from '@mui/material';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -20,14 +20,20 @@ export const StyledLink = styled(Link)`
 `;
 
 interface CustomProps {
-  isSelected: boolean
+  isSelected: boolean;
 }
 export const StyledLinkButton = styled(ListItemButton)<CustomProps>`
-  background-color: ${props => props.isSelected ? '#0A65FF !important' : 'inherit'};
-  color: ${props => props.isSelected ? '#fff !important' : 'inherit'};
-  border-radius: 0px 8px 8px 0px!important;
+  background-color: ${(props) =>
+    props.isSelected ? '#0A65FF !important' : 'inherit'};
+  color: ${(props) => (props.isSelected ? '#fff !important' : 'inherit')};
+  border-radius: 0px 8px 8px 0px !important;
   svg {
-    color: ${props => props.isSelected ? '#fff !important' : 'inherit'};
+    color: ${(props) => (props.isSelected ? '#fff !important' : 'inherit')};
   }
- 
-`
+`;
+
+export const StyledTextField = styled(TextField)`
+  & .MuiInputBase-root {
+    height: 40px; // Set your desired height here
+  }
+`;

@@ -7,18 +7,32 @@ import { fetchData } from '../utils/api';
 import { caseData, CasesResponse } from '../types/types';
 import { useLocation } from 'react-router-dom';
 import { capitalizeFirstWord } from '../utils/util';
+import { useCaseStore } from '../utils/store';
 
 type TableProps = {
   tabelType: string;
 };
+
+const initialColumnVisibilityModel = {
+  status: false,
+  type: false,
+  lastUpdated: false,
+};
+
+const rowHeight = 50;
 const CaseTablePage = (props: TableProps) => {
   const { tabelType } = props;
-  const [cases, setCases] = useState<CasesResponse | null>(null);
+  // const [cases, setCases] = useState<CasesResponse | null>(null);
+  // const cases = useStore((state: CasesState) => state.cases as CasesResponse | null);
+  const cases = useCaseStore((state) => state.cases as CasesResponse | null);
+  const paginationModal = useCaseStore((state) => state.paginationModal);
+  const setCases = useCaseStore((state) => state.setCases);
+  const setPaginationModal = useCaseStore((state) => state.setPaginationModal);
 
-  const [paginationModal, setPaginationModal] = useState({
-    page: 0,
-    pageSize: 10,
-  });
+  // const [paginationModal, setPaginationModal] = useState({
+  //   page: 0,
+  //   pageSize: 10,
+  // });
   const location = useLocation();
   const [status, setStatus] = useState(
     capitalizeFirstWord(location.pathname.replace('/', '')),
@@ -27,6 +41,7 @@ const CaseTablePage = (props: TableProps) => {
   useEffect(() => {
     console.log(location.pathname.replace('/', ''));
     setStatus(capitalizeFirstWord(location.pathname.replace('/', '')));
+    setPaginationModal({ page: 0, pageSize: 10 });
   }, [location]);
 
   useEffect(() => {
@@ -45,7 +60,7 @@ const CaseTablePage = (props: TableProps) => {
     ...tableColumns,
     {
       field: 'actions',
-      headerName: 'Action',
+      headerName: 'ACTIONS',
       width: 200,
       sortable: false,
       filterable: false,
@@ -56,6 +71,9 @@ const CaseTablePage = (props: TableProps) => {
       ),
     },
   ];
+
+  console.log('paginationModal', paginationModal, 'cases', cases);
+
   return (
     <Box sx={{ width: '95%', mt: 1 }}>
       <h5>{tabelType}</h5>
@@ -66,13 +84,15 @@ const CaseTablePage = (props: TableProps) => {
         getRowId={(row: caseData) => row.caseName}
         rowCount={cases?.total || 0}
         // loading={data.rows.length === 0}
-        rowHeight={38}
         checkboxSelection
         disableRowSelectionOnClick
         autoHeight
         paginationModel={paginationModal}
         onPaginationModelChange={(model) => setPaginationModal(model)}
         paginationMode="server"
+        rowHeight={rowHeight}
+        sx={{ width: '85%', overflow: 'auto' }}
+        // columnVisibilityModel={initialColumnVisibilityModel}
       />
     </Box>
   );
