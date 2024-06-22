@@ -9,7 +9,7 @@ export const fetchData = async (params: {
   order?: 'asc' | 'desc' | '';
 }) => {
   const { page, pageSize, status, search, sort, order } = params;
-  const url = 'http://localhost:3000/requests';
+  const url = '/requests';
   try {
     const res = await axios.get(url, {
       params: {
@@ -26,3 +26,16 @@ export const fetchData = async (params: {
     console.log('error', error);
   }
 };
+
+export const updateStatus = async (idArr: string[], status: string) => { 
+  const url = `/update-status`;
+  try {
+    const res = await axios.put(url, {
+      status: status,
+      ids: idArr
+    });
+    return res.data;
+  } catch (error) {
+    console.log('error', error);
+  }
+}

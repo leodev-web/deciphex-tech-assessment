@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Box } from '@mui/material';
+import { Box, IconButton, Menu, MenuItem } from '@mui/material';
 import { DataGrid, GridColDef, GridSortModel } from '@mui/x-data-grid';
 import { tableColumns } from '../types/columns';
 import TableToolBar from './TableToolBar';
-import { fetchData } from '../utils/api';
+import { fetchData, updateStatus } from '../utils/api';
 import { caseData, CasesResponse } from '../types/types';
 import { useLocation } from 'react-router-dom';
 import { capitalizeFirstWord } from '../utils/util';
 import { useCaseStore } from '../utils/store';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 type TableProps = {
   tabelType: string;
@@ -26,6 +27,8 @@ const CaseTablePage = (props: TableProps) => {
   const searchTerm = useCaseStore((state) => state.searchTerm);
   const { sortModal, setSortModal } = useCaseStore((state) => state);
   const {columnVisibilityModal} = useCaseStore((state) => state);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [seleectdMenu, setSelectedMenu] = useState<string>('');
 
   // const [paginationModal, setPaginationModal] = useState({
   //   page: 0,
@@ -43,19 +46,26 @@ const CaseTablePage = (props: TableProps) => {
   }, [location]);
 
   useEffect(() => {
-    const { page, pageSize } = paginationModal;
-    console.log('page:', page, 'pageSize:', pageSize, 'status:', status);
-    fetchData({
-      page: page + 1,
-      pageSize,
-      ...(status && { status }),
-      ...(searchTerm && { search: searchTerm }),
-      ...(sortModal.sort &&
-        sortModal.order && { sort: sortModal.sort, order: sortModal.order }),
-    }).then((res: CasesResponse) => {
-      setCases(res);
-    });
+   fetchCasesData();
   }, [paginationModal, status, searchTerm, sortModal]);
+
+  const fetchCasesData = async () => {
+    try {
+      const { page, pageSize } = paginationModal;
+      const res= await fetchData({
+        page: page + 1,
+        pageSize: pageSize,
+        ...(status && { status }),
+        ...(searchTerm && { search: searchTerm }),
+        ...(sortModal.sort &&
+          sortModal.order && { sort: sortModal.sort, order: sortModal.order }),
+      })
+      setCases(res);
+    } catch (error) {
+      console.log('error', error);
+    }
+   
+  }
 
   const columns: GridColDef[] = [
     ...tableColumns,
@@ -68,7 +78,23 @@ const CaseTablePage = (props: TableProps) => {
       disableExport: true,
       align: 'center',
       renderCell: (params) => (
-        <div style={{ display: 'flex', alignItems: 'center' }}></div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <>
+          <IconButton size="small" style={{ marginLeft: 8 }} aria-label='actions' aria-haspopup='true' onClick={(event) => handleActionMenuClick(event, params.row)}>
+             <MoreHorizIcon />
+           </IconButton>
+          <Menu
+            id="long-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl) && seleectdMenu === params.row.caseName}
+            onClose={handleMenuClose}
+          >
+            <MenuItem onClick={() => handleMenuClick('Accepted', params.row.caseName)}>Accept case</MenuItem>
+            <MenuItem onClick={() => handleMenuClick('Rejected',  params.row.caseName)}>Reject Case</MenuItem>
+          </Menu>
+          </>
+          
+        </div>
       ),
     },
   ];
@@ -78,6 +104,25 @@ const CaseTablePage = (props: TableProps) => {
       sort: model?.[0]?.field || '',
       order: model?.[0]?.sort || '',
     });
+  };
+
+  const handleActionMenuClick = (event: any, row: caseData) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedMenu(row.caseName);
+  };
+
+  const handleMenuClick = (action: string, id: string) => {
+    updateStatus([id], action).then((res) => {
+      if (res) {
+        fetchCasesData();
+      }
+    })
+    handleMenuClose();
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    // setMenuRowId(null);
   };
 
   return (
@@ -97,7 +142,7 @@ const CaseTablePage = (props: TableProps) => {
         onPaginationModelChange={(model) => setPaginationModal(model)}
         paginationMode="server"
         rowHeight={rowHeight}
-        sx={{ width: '85%', overflow: 'auto' }}
+        sx={{ width: '85%', overflow: 'auto'}}
         sortingMode="server"
         onSortModelChange={handleSortModelChange}
         columnVisibilityModel={columnVisibilityModal}
