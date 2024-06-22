@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -12,9 +12,15 @@ import { displayName } from '../types/constants';
 
 export default function SelectColumns() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedOptions, setSelectedOptions] = useState<string []>([]);
   const {columnVisibilityModal, setcolumnVisibilityModal} = useCaseStore((state) => state);
 
+
+
+  useEffect(() => {
+    localStorage.setItem('columnVisibilityModal', JSON.stringify(columnVisibilityModal));
+  }, [columnVisibilityModal]);
+
+  
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };

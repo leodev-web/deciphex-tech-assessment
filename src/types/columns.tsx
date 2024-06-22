@@ -31,17 +31,18 @@ export const tableColumns: GridColDef[] = [
   {
     field: 'assignee',
     headerName: 'ASSIGNEE',
-    width: 300,
+    minWidth: 300,
+    flex: 1,
     editable: false,
     filterable: true,
   },
   {
     field: 'description',
     headerName: 'DESCRIPTION',
-    // flex: 1,
+    flex: 2,
     editable: false,
     filterable: false,
-    width: 300,
+    minWidth: 300,
   },
   {
     field: 'status',

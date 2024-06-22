@@ -28,7 +28,6 @@ const TableToolBar = () => {
       style={{
         display: 'flex',
         justifyContent: 'space-between',
-        width: '85%',
         alignItems: 'center',
       }}
     >
@@ -46,17 +45,21 @@ const TableToolBar = () => {
                 </IconButton>
               </InputAdornment>
             ),
+            endAdornment: <InputAdornment position="end">
+               <Button
+          variant="contained"
+          style={{ height: '38px' }}
+          onClick={onClick}
+          size="medium"
+          color="primary"
+        >
+          Search
+        </Button>
+            </InputAdornment>,
           }}
           value={val}
           onChange={handleChange}
         />
-        <Button
-          variant="contained"
-          style={{ height: '38px' }}
-          onClick={onClick}
-        >
-          Search
-        </Button>
       </div>
       <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
           <BatchUpdateComponent />

@@ -27,6 +27,14 @@ export interface CasesState {
   setcolumnVisibilityModal: (visibilityModal: Record<string, boolean>) => void;
 }
 
+const getVisibilityModal = () => {
+  const columnVisibility = localStorage.getItem('columnVisibilityModal');
+  if (columnVisibility) {
+    return JSON.parse(columnVisibility);
+  }
+  return initialColumnVisibilityModel;
+};
+
 export const useCaseStore = create<CasesState>((set) => ({
   cases: null,
   setCases: (caseRes) => set({ cases: caseRes }),
@@ -42,6 +50,6 @@ export const useCaseStore = create<CasesState>((set) => ({
     order: '',
   },
   setSortModal: (sortModal) => set({ sortModal }),
-  columnVisibilityModal: initialColumnVisibilityModel,
+  columnVisibilityModal: getVisibilityModal(),
   setcolumnVisibilityModal: (columnVisibilityModal) => set({ columnVisibilityModal }),
 }));

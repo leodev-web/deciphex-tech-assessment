@@ -7,6 +7,8 @@ import { Root } from './components/Root';
 import ErrorPage from './components/ErrorPage';
 import CaseTablePage from './components/CaseTablePage';
 
+
+
 const router = createBrowserRouter([
   {
     path: '/',

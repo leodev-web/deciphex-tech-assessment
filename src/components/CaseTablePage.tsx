@@ -122,13 +122,13 @@ const CaseTablePage = (props: TableProps) => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    // setMenuRowId(null);
   };
 
   return (
-    <Box sx={{ width: '95%', mt: 1  }}>
+    <Box sx={{ width: '95%', mt: 1,  }}>
       <h5>{tabelType}</h5>
       <TableToolBar />
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <DataGrid
         columns={columns}
         rows={cases?.data || []}
@@ -139,14 +139,18 @@ const CaseTablePage = (props: TableProps) => {
         disableRowSelectionOnClick
         autoHeight
         paginationModel={paginationModal}
+        pageSizeOptions={[10, 20, 50, 100]}
         onPaginationModelChange={(model) => setPaginationModal(model)}
         paginationMode="server"
         rowHeight={rowHeight}
-        sx={{ width: '85%', overflow: 'auto'}}
+        sx={{ width: '80vw', overflow: 'auto', minWidth: '95%'
+      }}
         sortingMode="server"
         onSortModelChange={handleSortModelChange}
         columnVisibilityModel={columnVisibilityModal}
       />
+      </Box>
+     
     </Box>
   );
 };
