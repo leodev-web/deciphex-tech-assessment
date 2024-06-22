@@ -10,6 +10,7 @@ export const tableColumns: GridColDef[] = [
     align: 'center',
     headerAlign: 'center',
     filterable: false,
+    headerClassName: 'columnHeader',
     renderCell: (params) => {
       const { priority } = params.row;
       return (
@@ -27,6 +28,7 @@ export const tableColumns: GridColDef[] = [
     align: 'center',
     headerAlign: 'center',
     filterable: false,
+    headerClassName: 'columnHeader',
   },
   {
     field: 'assignee',
@@ -35,6 +37,7 @@ export const tableColumns: GridColDef[] = [
     flex: 1,
     editable: false,
     filterable: true,
+    headerClassName: 'columnHeader',
   },
   {
     field: 'description',
@@ -43,6 +46,7 @@ export const tableColumns: GridColDef[] = [
     editable: false,
     filterable: false,
     minWidth: 300,
+    headerClassName: 'columnHeader',
   },
   {
     field: 'status',
@@ -51,6 +55,7 @@ export const tableColumns: GridColDef[] = [
     align: 'center',
     headerAlign: 'center',
     filterable: false,
+    headerClassName: 'columnHeader',
   },
   {
     field: 'type',
@@ -59,6 +64,7 @@ export const tableColumns: GridColDef[] = [
     align: 'center',
     headerAlign: 'center',
     filterable: false,
+    headerClassName: 'columnHeader',
   },
   {
     field: 'dateCreated',
@@ -68,6 +74,7 @@ export const tableColumns: GridColDef[] = [
     align: 'left',
     headerAlign: 'left',
     filterable: false,
+    headerClassName: 'columnHeader',
   },
   {
     field: 'lastUpdated',
@@ -77,5 +84,6 @@ export const tableColumns: GridColDef[] = [
     align: 'left',
     headerAlign: 'left',
     filterable: false,
+    headerClassName: 'columnHeader',
   },
 ];

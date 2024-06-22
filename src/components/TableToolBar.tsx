@@ -3,7 +3,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import { StyledTextField } from '../styles/styles';
-import { Button, ButtonGroup, ClickAwayListener, Grow, MenuItem, MenuList, Paper, Popper } from '@mui/material';
+import { Button } from '@mui/material';
 import { useCaseStore } from '../utils/store';
 import BatchUpdateComponent from './BatchUpdateComponent';
 import SelectColumns from './SelectColumns';
@@ -21,7 +21,6 @@ const TableToolBar = () => {
     setPaginationModal({ page: 0, pageSize: 10 });
     setSearchTerm(val);
   };
-
 
   return (
     <div
@@ -45,25 +44,34 @@ const TableToolBar = () => {
                 </IconButton>
               </InputAdornment>
             ),
-            endAdornment: <InputAdornment position="end">
-               <Button
-          variant="contained"
-          style={{ height: '38px' }}
-          onClick={onClick}
-          size="medium"
-          color="primary"
-        >
-          Search
-        </Button>
-            </InputAdornment>,
+            endAdornment: (
+              <InputAdornment position="end">
+                <Button
+                  variant="contained"
+                  style={{ height: '38px' }}
+                  onClick={onClick}
+                  size="medium"
+                  color="primary"
+                >
+                  Search
+                </Button>
+              </InputAdornment>
+            ),
           }}
           value={val}
           onChange={handleChange}
         />
       </div>
-      <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <BatchUpdateComponent />
-          <SelectColumns />
+      <div
+        style={{
+          marginBottom: '10px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+        }}
+      >
+        <BatchUpdateComponent />
+        <SelectColumns />
       </div>
     </div>
   );

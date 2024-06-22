@@ -9,19 +9,20 @@ import Checkbox from '@mui/material/Checkbox';
 import { useCaseStore } from '../utils/store';
 import { displayName } from '../types/constants';
 
-
 export default function SelectColumns() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const {columnVisibilityModal, setcolumnVisibilityModal} = useCaseStore((state) => state);
-
-
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { columnVisibilityModal, setcolumnVisibilityModal } = useCaseStore(
+    (state) => state,
+  );
 
   useEffect(() => {
-    localStorage.setItem('columnVisibilityModal', JSON.stringify(columnVisibilityModal));
+    localStorage.setItem(
+      'columnVisibilityModal',
+      JSON.stringify(columnVisibilityModal),
+    );
   }, [columnVisibilityModal]);
 
-  
-  const handleClick = (event: any) => {
+  const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -30,20 +31,29 @@ export default function SelectColumns() {
   };
 
   const handleSelectChange = (option: string) => {
-    setcolumnVisibilityModal({ ...columnVisibilityModal, [option]: !columnVisibilityModal[option] });
+    setcolumnVisibilityModal({
+      ...columnVisibilityModal,
+      [option]: !columnVisibilityModal[option],
+    });
     handleClose();
   };
 
   return (
     <div>
-      <Button onClick={handleClick} variant='contained'>Columns</Button>
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        {Object.keys(columnVisibilityModal).map((option:string ) => (
-          <MenuItem key={option} onClick={() => handleSelectChange(option)} sx={{ display: 'flex', justifyContent: 'space-between' , width: '180px'}}>
+      <Button onClick={handleClick} variant="contained">
+        Columns
+      </Button>
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+        {Object.keys(columnVisibilityModal).map((option: string) => (
+          <MenuItem
+            key={option}
+            onClick={() => handleSelectChange(option)}
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '180px',
+            }}
+          >
             <ListItemSecondaryAction>
               <IconButton edge="end">
                 <Checkbox
@@ -53,7 +63,6 @@ export default function SelectColumns() {
               </IconButton>
             </ListItemSecondaryAction>
             <ListItemText primary={displayName[option]} />
-            
           </MenuItem>
         ))}
       </Menu>

@@ -1,4 +1,4 @@
-import { ListItemButton, TextField } from '@mui/material';
+import { ListItemButton, TextField, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -36,4 +36,13 @@ export const StyledTextField = styled(TextField)`
   & .MuiInputBase-root {
     height: 40px; // Set your desired height here
   }
+`;
+
+export const StyledTypography = styled(Typography)`
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 24px;
+  color: #2e3b52;
+  margin-bottom: 20px !important;
+  margin-top: 20px !important;
 `;

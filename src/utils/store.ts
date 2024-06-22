@@ -51,5 +51,6 @@ export const useCaseStore = create<CasesState>((set) => ({
   },
   setSortModal: (sortModal) => set({ sortModal }),
   columnVisibilityModal: getVisibilityModal(),
-  setcolumnVisibilityModal: (columnVisibilityModal) => set({ columnVisibilityModal }),
+  setcolumnVisibilityModal: (columnVisibilityModal) =>
+    set({ columnVisibilityModal }),
 }));

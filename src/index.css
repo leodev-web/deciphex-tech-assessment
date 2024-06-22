@@ -1,4 +1,5 @@
-body, * {
+body,
+* {
   margin: 0;
   font-family: Inter !important;
   -webkit-font-smoothing: antialiased;
@@ -10,26 +11,46 @@ code {
     monospace;
 }
 
-*:focus, *:active, *:focus-visible, *:focus-within{
+*:focus,
+*:active,
+*:focus-visible,
+*:focus-within {
   outline: none !important;
 }
 td:focus {
   outline: none !important;
 }
-.MuiDataGrid-row:nth-child(odd){
-  background-color: #F4F7FC !important; /* Light gray for odd rows */
+.MuiDataGrid-row:nth-child(odd) {
+  background-color: #f4f7fc !important; /* Light gray for odd rows */
 }
-
 
 .MuiDataGrid-row:nth-child(even) {
   background-color: #ffffff !important; /* White for even rows */
 }
 
-.MuiDataGrid-root .MuiDataGrid-container--bottom [role=row] {
-  background: #F4F7FC !important;
-  background-color: #F4F7FC !important;
+.MuiDataGrid-root .MuiDataGrid-container--bottom [role='row'] {
+  background: #f4f7fc !important;
+  background-color: #f4f7fc !important;
 }
 
 .MuiInputBase-root {
   padding-right: 1px !important;
+}
+.MuiDataGrid-columnHeaderTitleContainer,
+.columnHeader {
+  font-size: 12px;
+  color: #606f89;
+  font-weight: 500;
+  background-color: #f4f7fc;
+  font-family: 600;
+}
+
+.tableRow {
+  border-bottom: none !important;
+  border-top: none !important;
+}
+
+[class^='MuiDataGrid'] {
+  border-bottom: none !important;
+  border-top: none !important;
 }

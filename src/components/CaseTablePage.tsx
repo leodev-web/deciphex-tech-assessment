@@ -9,31 +9,25 @@ import { useLocation } from 'react-router-dom';
 import { capitalizeFirstWord } from '../utils/util';
 import { useCaseStore } from '../utils/store';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { StyledTypography } from '../styles/styles';
 
 type TableProps = {
   tabelType: string;
 };
 
-
 const rowHeight = 50;
 const CaseTablePage = (props: TableProps) => {
   const { tabelType } = props;
-  // const [cases, setCases] = useState<CasesResponse | null>(null);
-  // const cases = useStore((state: CasesState) => state.cases as CasesResponse | null);
   const cases = useCaseStore((state) => state.cases as CasesResponse | null);
   const paginationModal = useCaseStore((state) => state.paginationModal);
   const setCases = useCaseStore((state) => state.setCases);
   const setPaginationModal = useCaseStore((state) => state.setPaginationModal);
   const searchTerm = useCaseStore((state) => state.searchTerm);
   const { sortModal, setSortModal } = useCaseStore((state) => state);
-  const {columnVisibilityModal} = useCaseStore((state) => state);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const { columnVisibilityModal } = useCaseStore((state) => state);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [seleectdMenu, setSelectedMenu] = useState<string>('');
 
-  // const [paginationModal, setPaginationModal] = useState({
-  //   page: 0,
-  //   pageSize: 10,
-  // });
   const location = useLocation();
   const [status, setStatus] = useState(
     capitalizeFirstWord(location.pathname.replace('/', '')),
@@ -46,26 +40,25 @@ const CaseTablePage = (props: TableProps) => {
   }, [location]);
 
   useEffect(() => {
-   fetchCasesData();
+    fetchCasesData();
   }, [paginationModal, status, searchTerm, sortModal]);
 
   const fetchCasesData = async () => {
     try {
       const { page, pageSize } = paginationModal;
-      const res= await fetchData({
+      const res = await fetchData({
         page: page + 1,
         pageSize: pageSize,
         ...(status && { status }),
         ...(searchTerm && { search: searchTerm }),
         ...(sortModal.sort &&
           sortModal.order && { sort: sortModal.sort, order: sortModal.order }),
-      })
+      });
       setCases(res);
     } catch (error) {
       console.log('error', error);
     }
-   
-  }
+  };
 
   const columns: GridColDef[] = [
     ...tableColumns,
@@ -77,23 +70,37 @@ const CaseTablePage = (props: TableProps) => {
       filterable: false,
       disableExport: true,
       align: 'center',
+      headerClassName: 'columnHeader',
       renderCell: (params) => (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <>
-          <IconButton size="small" style={{ marginLeft: 8 }} aria-label='actions' aria-haspopup='true' onClick={(event) => handleActionMenuClick(event, params.row)}>
-             <MoreHorizIcon />
-           </IconButton>
-          <Menu
-            id="long-menu"
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl) && seleectdMenu === params.row.caseName}
-            onClose={handleMenuClose}
-          >
-            <MenuItem onClick={() => handleMenuClick('Accepted', params.row.caseName)}>Accept case</MenuItem>
-            <MenuItem onClick={() => handleMenuClick('Rejected',  params.row.caseName)}>Reject Case</MenuItem>
-          </Menu>
+            <IconButton
+              size="small"
+              style={{ marginLeft: 8 }}
+              aria-label="actions"
+              aria-haspopup="true"
+              onClick={(event) => handleActionMenuClick(event, params.row)}
+            >
+              <MoreHorizIcon />
+            </IconButton>
+            <Menu
+              id="long-menu"
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl) && seleectdMenu === params.row.caseName}
+              onClose={handleMenuClose}
+            >
+              <MenuItem
+                onClick={() => handleMenuClick('Accepted', params.row.caseName)}
+              >
+                Accept case
+              </MenuItem>
+              <MenuItem
+                onClick={() => handleMenuClick('Rejected', params.row.caseName)}
+              >
+                Reject Case
+              </MenuItem>
+            </Menu>
           </>
-          
         </div>
       ),
     },
@@ -106,7 +113,10 @@ const CaseTablePage = (props: TableProps) => {
     });
   };
 
-  const handleActionMenuClick = (event: any, row: caseData) => {
+  const handleActionMenuClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    row: caseData,
+  ) => {
     setAnchorEl(event.currentTarget);
     setSelectedMenu(row.caseName);
   };
@@ -116,7 +126,7 @@ const CaseTablePage = (props: TableProps) => {
       if (res) {
         fetchCasesData();
       }
-    })
+    });
     handleMenuClose();
   };
 
@@ -125,32 +135,31 @@ const CaseTablePage = (props: TableProps) => {
   };
 
   return (
-    <Box sx={{ width: '95%', mt: 1,  }}>
-      <h5>{tabelType}</h5>
+    <Box sx={{ width: '95%', mt: 1 }}>
+      <StyledTypography>{tabelType}</StyledTypography>
       <TableToolBar />
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-      <DataGrid
-        columns={columns}
-        rows={cases?.data || []}
-        getRowId={(row: caseData) => row.caseName}
-        rowCount={cases?.total || 0}
-        // loading={data.rows.length === 0}
-        checkboxSelection
-        disableRowSelectionOnClick
-        autoHeight
-        paginationModel={paginationModal}
-        pageSizeOptions={[10, 20, 50, 100]}
-        onPaginationModelChange={(model) => setPaginationModal(model)}
-        paginationMode="server"
-        rowHeight={rowHeight}
-        sx={{ width: '80vw', overflow: 'auto', minWidth: '95%'
-      }}
-        sortingMode="server"
-        onSortModelChange={handleSortModelChange}
-        columnVisibilityModel={columnVisibilityModal}
-      />
+        <DataGrid
+          columns={columns}
+          rows={cases?.data || []}
+          getRowId={(row: caseData) => row.caseName}
+          rowCount={cases?.total || 0}
+          // loading={data.rows.length === 0}
+          checkboxSelection
+          disableRowSelectionOnClick
+          autoHeight
+          paginationModel={paginationModal}
+          pageSizeOptions={[10, 20, 50, 100]}
+          onPaginationModelChange={(model) => setPaginationModal(model)}
+          paginationMode="server"
+          rowHeight={rowHeight}
+          sx={{ width: '80vw', overflow: 'auto', minWidth: '95%' }}
+          sortingMode="server"
+          onSortModelChange={handleSortModelChange}
+          columnVisibilityModel={columnVisibilityModal}
+          getRowClassName={() => `tableRow`}
+        />
       </Box>
-     
     </Box>
   );
 };

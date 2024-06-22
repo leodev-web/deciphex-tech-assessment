@@ -2,11 +2,11 @@ export const initialColumnVisibilityModel = {
   status: false,
   type: false,
   lastUpdated: false,
-  dateCreated: true,  
-  priority: false,     
-  caseName: true,     
-  assignee: true,    
-  description: true,    
+  dateCreated: true,
+  priority: false,
+  caseName: true,
+  assignee: true,
+  description: true,
 };
 
 export const displayName: Record<string, string> = {
@@ -18,4 +18,4 @@ export const displayName: Record<string, string> = {
   caseName: 'Case Name',
   assignee: 'Assignee',
   description: 'Description',
-}
+};

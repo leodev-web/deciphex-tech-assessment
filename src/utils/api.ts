@@ -27,15 +27,15 @@ export const fetchData = async (params: {
   }
 };
 
-export const updateStatus = async (idArr: string[], status: string) => { 
+export const updateStatus = async (idArr: string[], status: string) => {
   const url = `/update-status`;
   try {
     const res = await axios.put(url, {
       status: status,
-      ids: idArr
+      ids: idArr,
     });
     return res.data;
   } catch (error) {
     console.log('error', error);
   }
-}
+};
