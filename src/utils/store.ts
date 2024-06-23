@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { CasesResponse } from '../types/types';
 import { initialColumnVisibilityModel } from '../types/constants';
+import { GridRowSelectionModel } from '@mui/x-data-grid';
 
 export interface CasesState {
   cases: CasesResponse | null;
@@ -25,6 +26,8 @@ export interface CasesState {
   }) => void;
   columnVisibilityModal: Record<string, boolean>;
   setcolumnVisibilityModal: (visibilityModal: Record<string, boolean>) => void;
+  selectionModel: GridRowSelectionModel;
+  setSelectionModel: (selectionModel: GridRowSelectionModel) => void;
 }
 
 const getVisibilityModal = () => {
@@ -53,4 +56,6 @@ export const useCaseStore = create<CasesState>((set) => ({
   columnVisibilityModal: getVisibilityModal(),
   setcolumnVisibilityModal: (columnVisibilityModal) =>
     set({ columnVisibilityModal }),
+  selectionModel: [],
+  setSelectionModel: (selectionModel) => set({ selectionModel }),
 }));

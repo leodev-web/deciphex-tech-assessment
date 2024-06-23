@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { GridRowSelectionModel } from '@mui/x-data-grid';
 
 export const fetchData = async (params: {
   page: number;
@@ -27,7 +28,10 @@ export const fetchData = async (params: {
   }
 };
 
-export const updateStatus = async (idArr: string[], status: string) => {
+export const updateStatus = async (
+  idArr: string[] | GridRowSelectionModel,
+  status: string,
+) => {
   const url = `/update-status`;
   try {
     const res = await axios.put(url, {

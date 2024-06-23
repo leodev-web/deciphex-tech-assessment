@@ -10,20 +10,34 @@ import {
   MenuItem,
 } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { updateStatus } from '../utils/api';
+import { useCaseStore } from '../utils/store';
 
 const batchOptions = ['Accept cases', 'Reject cases'];
-const BatchUpdateComponent = () => {
+const BatchUpdateComponent = ({
+  fetchCasesData,
+}: {
+  fetchCasesData: () => void;
+}) => {
   const [selectedIndex, setSelectedIndex] = React.useState(1);
   const [batchBtnOpen, setBatchBtnOpen] = React.useState(false);
+  const { selectionModel, setSelectionModel } = useCaseStore((state) => state);
 
   const anchorRef = React.useRef<HTMLDivElement>(null);
-  const handleMenuItemClick = (
+
+  const handleMenuItemClick = async (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
     index: number,
   ) => {
-    setSelectedIndex(index);
     setBatchBtnOpen(false);
-    console.log('index', index);
+    setSelectedIndex(index);
+    if (index === 0) {
+      await updateStatus(selectionModel, 'Accepted');
+    } else {
+      await updateStatus(selectionModel, 'Rejected');
+    }
+    setSelectionModel([]);
+    fetchCasesData();
   };
 
   const handleToggle = () => {
@@ -48,6 +62,7 @@ const BatchUpdateComponent = () => {
       <Button
         onClick={handleToggle}
         sx={{ backgroundColor: '#7D90B2', color: '#FFFFFF' }}
+        disabled={selectionModel.length === 0}
       >
         {'Batch Actions'}
         <ArrowDropDownIcon />
@@ -76,7 +91,6 @@ const BatchUpdateComponent = () => {
                   {batchOptions.map((option, index) => (
                     <MenuItem
                       key={option}
-                      disabled={index === 2}
                       selected={index === selectedIndex}
                       onClick={(event) => handleMenuItemClick(event, index)}
                     >

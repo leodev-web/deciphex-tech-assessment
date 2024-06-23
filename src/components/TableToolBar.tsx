@@ -8,7 +8,7 @@ import { useCaseStore } from '../utils/store';
 import BatchUpdateComponent from './BatchUpdateComponent';
 import SelectColumns from './SelectColumns';
 
-const TableToolBar = () => {
+const TableToolBar = ({ fetchCasesData }: { fetchCasesData: () => void }) => {
   const [val, setVal] = useState<string>('');
   const { setSearchTerm } = useCaseStore((state) => state);
   const { setPaginationModal } = useCaseStore((state) => state);
@@ -70,7 +70,7 @@ const TableToolBar = () => {
           gap: '10px',
         }}
       >
-        <BatchUpdateComponent />
+        <BatchUpdateComponent fetchCasesData={fetchCasesData} />
         <SelectColumns />
       </div>
     </div>

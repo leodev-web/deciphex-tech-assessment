@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Box, IconButton, Menu, MenuItem } from '@mui/material';
-import { DataGrid, GridColDef, GridSortModel } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridColDef,
+  GridRowSelectionModel,
+  GridSortModel,
+} from '@mui/x-data-grid';
 import { tableColumns } from '../types/columns';
 import TableToolBar from './TableToolBar';
 import { fetchData, updateStatus } from '../utils/api';
@@ -26,7 +31,8 @@ const CaseTablePage = (props: TableProps) => {
   const { sortModal, setSortModal } = useCaseStore((state) => state);
   const { columnVisibilityModal } = useCaseStore((state) => state);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const [seleectdMenu, setSelectedMenu] = useState<string>('');
+  const [selectedMenu, setSelectedMenu] = useState<string>('');
+  const { selectionModel, setSelectionModel } = useCaseStore((state) => state);
 
   const location = useLocation();
   const [status, setStatus] = useState(
@@ -86,7 +92,7 @@ const CaseTablePage = (props: TableProps) => {
             <Menu
               id="long-menu"
               anchorEl={anchorEl}
-              open={Boolean(anchorEl) && seleectdMenu === params.row.caseName}
+              open={Boolean(anchorEl) && selectedMenu === params.row.caseName}
               onClose={handleMenuClose}
             >
               <MenuItem
@@ -137,7 +143,7 @@ const CaseTablePage = (props: TableProps) => {
   return (
     <Box sx={{ width: '95%', mt: 1 }}>
       <StyledTypography>{tabelType}</StyledTypography>
-      <TableToolBar />
+      <TableToolBar fetchCasesData={fetchCasesData} />
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <DataGrid
           columns={columns}
@@ -146,6 +152,10 @@ const CaseTablePage = (props: TableProps) => {
           rowCount={cases?.total || 0}
           // loading={data.rows.length === 0}
           checkboxSelection
+          onRowSelectionModelChange={(newSelection: GridRowSelectionModel) => {
+            setSelectionModel(newSelection);
+          }}
+          rowSelectionModel={selectionModel}
           disableRowSelectionOnClick
           autoHeight
           paginationModel={paginationModal}
