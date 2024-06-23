@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, IconButton, Menu, MenuItem } from '@mui/material';
+import { Box, Menu, MenuItem } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -14,7 +14,11 @@ import { useLocation } from 'react-router-dom';
 import { capitalizeFirstWord } from '../utils/util';
 import { useCaseStore } from '../utils/store';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { StyledTypography } from '../styles/styles';
+import {
+  StyledTypography,
+  StyledActionColumn,
+  StyledActionIconButton,
+} from '../styles/styles';
 
 type TableProps = {
   tabelType: string;
@@ -78,36 +82,33 @@ const CaseTablePage = (props: TableProps) => {
       align: 'center',
       headerClassName: 'columnHeader',
       renderCell: (params) => (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <>
-            <IconButton
-              size="small"
-              style={{ marginLeft: 8 }}
-              aria-label="actions"
-              aria-haspopup="true"
-              onClick={(event) => handleActionMenuClick(event, params.row)}
+        <StyledActionColumn>
+          <StyledActionIconButton
+            size="small"
+            aria-label="actions"
+            aria-haspopup="true"
+            onClick={(event) => handleActionMenuClick(event, params.row)}
+          >
+            <MoreHorizIcon />
+          </StyledActionIconButton>
+          <Menu
+            id="long-menu"
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl) && selectedMenu === params.row.caseName}
+            onClose={handleMenuClose}
+          >
+            <MenuItem
+              onClick={() => handleMenuClick('Accepted', params.row.caseName)}
             >
-              <MoreHorizIcon />
-            </IconButton>
-            <Menu
-              id="long-menu"
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl) && selectedMenu === params.row.caseName}
-              onClose={handleMenuClose}
+              Accept case
+            </MenuItem>
+            <MenuItem
+              onClick={() => handleMenuClick('Rejected', params.row.caseName)}
             >
-              <MenuItem
-                onClick={() => handleMenuClick('Accepted', params.row.caseName)}
-              >
-                Accept case
-              </MenuItem>
-              <MenuItem
-                onClick={() => handleMenuClick('Rejected', params.row.caseName)}
-              >
-                Reject Case
-              </MenuItem>
-            </Menu>
-          </>
-        </div>
+              Reject Case
+            </MenuItem>
+          </Menu>
+        </StyledActionColumn>
       ),
     },
   ];

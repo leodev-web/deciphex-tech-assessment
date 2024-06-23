@@ -2,11 +2,19 @@ import React, { useState } from 'react';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import { StyledTextField } from '../styles/styles';
-import { Button } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import {
+  StyledSearchButton,
+  StyledSearchContainer,
+  StyledTextField,
+} from '../styles/styles';
 import { useCaseStore } from '../utils/store';
 import BatchUpdateComponent from './BatchUpdateComponent';
 import SelectColumns from './SelectColumns';
+import {
+  StyledTableActionContainer,
+  StyledTableToolbarContainer,
+} from '../styles/styles';
 
 const TableToolBar = ({ fetchCasesData }: { fetchCasesData: () => void }) => {
   const [val, setVal] = useState<string>('');
@@ -17,20 +25,20 @@ const TableToolBar = ({ fetchCasesData }: { fetchCasesData: () => void }) => {
     setVal(event.target.value);
   };
 
+  const clearSearch = () => {
+    setVal('');
+    setPaginationModal({ page: 0, pageSize: 10 });
+    setSearchTerm('');
+  };
+
   const onClick = () => {
     setPaginationModal({ page: 0, pageSize: 10 });
     setSearchTerm(val);
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}
-    >
-      <div className="searchContainer" style={{ marginBottom: '10px' }}>
+    <StyledTableToolbarContainer>
+      <StyledSearchContainer>
         <StyledTextField
           // label="Search"
           variant="outlined"
@@ -39,41 +47,37 @@ const TableToolBar = ({ fetchCasesData }: { fetchCasesData: () => void }) => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <IconButton>
-                  <SearchIcon />
-                </IconButton>
+                <SearchIcon />
               </InputAdornment>
             ),
             endAdornment: (
               <InputAdornment position="end">
-                <Button
+                <IconButton
+                  onClick={clearSearch}
+                  style={{ visibility: val ? 'visible' : 'hidden' }}
+                >
+                  <CloseIcon />
+                </IconButton>
+                <StyledSearchButton
                   variant="contained"
-                  style={{ height: '38px' }}
                   onClick={onClick}
                   size="medium"
                   color="primary"
                 >
                   Search
-                </Button>
+                </StyledSearchButton>
               </InputAdornment>
             ),
           }}
           value={val}
           onChange={handleChange}
         />
-      </div>
-      <div
-        style={{
-          marginBottom: '10px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-        }}
-      >
+      </StyledSearchContainer>
+      <StyledTableActionContainer>
         <BatchUpdateComponent fetchCasesData={fetchCasesData} />
         <SelectColumns />
-      </div>
-    </div>
+      </StyledTableActionContainer>
+    </StyledTableToolbarContainer>
   );
 };
 

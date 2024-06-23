@@ -59,11 +59,7 @@ const BatchUpdateComponent = ({
       ref={anchorRef}
       aria-label="Button group with a nested menu"
     >
-      <Button
-        onClick={handleToggle}
-        sx={{ backgroundColor: '#7D90B2', color: '#FFFFFF' }}
-        disabled={selectionModel.length === 0}
-      >
+      <Button onClick={handleToggle} disabled={selectionModel.length === 0}>
         {'Batch Actions'}
         <ArrowDropDownIcon />
       </Button>

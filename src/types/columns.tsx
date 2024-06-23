@@ -6,7 +6,7 @@ export const tableColumns: GridColDef[] = [
   {
     field: 'priority',
     headerName: 'PRIORITY',
-    width: 300,
+    width: 200,
     align: 'center',
     headerAlign: 'center',
     filterable: false,
@@ -24,7 +24,7 @@ export const tableColumns: GridColDef[] = [
   {
     field: 'caseName',
     headerName: 'CASE NAME',
-    width: 300,
+    width: 200,
     align: 'center',
     headerAlign: 'center',
     filterable: false,
@@ -33,7 +33,7 @@ export const tableColumns: GridColDef[] = [
   {
     field: 'assignee',
     headerName: 'ASSIGNEE',
-    minWidth: 300,
+    minWidth: 200,
     flex: 1,
     editable: false,
     filterable: true,
@@ -51,7 +51,7 @@ export const tableColumns: GridColDef[] = [
   {
     field: 'status',
     headerName: 'STATUS',
-    width: 300,
+    width: 200,
     align: 'center',
     headerAlign: 'center',
     filterable: false,

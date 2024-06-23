@@ -50,7 +50,7 @@ td:focus {
   border-top: none !important;
 }
 
-[class^='MuiDataGrid'] {
+[class^='MuiDataGrid']:not(:last-child) {
   border-bottom: none !important;
   border-top: none !important;
 }
