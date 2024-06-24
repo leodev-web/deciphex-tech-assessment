@@ -1,3 +1,7 @@
+/**
+ * @description TableToolBar component
+ * This component renders the toolbar for the table which includes search, batch update and select columns
+ */
 import React, { useState } from 'react';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';

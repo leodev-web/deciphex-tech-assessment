@@ -1,3 +1,7 @@
+/**
+ * @description SideBar component
+ * This component renders the side bar for the dashboard.
+ */
 import React from 'react';
 import {
   CssBaseline,

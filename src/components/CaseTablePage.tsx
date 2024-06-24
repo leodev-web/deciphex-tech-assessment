@@ -1,3 +1,7 @@
+/**
+ * @description CaseTablePage
+ * This component renders the table page for displaying cases.
+ */
 import React, { useEffect, useMemo, useState } from 'react';
 import { Box, Menu, MenuItem } from '@mui/material';
 import {
@@ -42,8 +46,7 @@ const CaseTablePage = (props: TableProps) => {
 
   useEffect(() => {
     setPaginationModal({ page: 0, pageSize: 10 });
-  }, [location]);
-
+  }, [location]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const status = useMemo(() => {
     return capitalizeFirstWord(location.pathname.replace('/', ''));
@@ -51,8 +54,7 @@ const CaseTablePage = (props: TableProps) => {
 
   useEffect(() => {
     fetchCasesData();
-  }, [paginationModal, searchTerm, sortModal]);
-
+  }, [paginationModal, searchTerm, sortModal]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchCasesData = async () => {
     try {
@@ -69,6 +71,34 @@ const CaseTablePage = (props: TableProps) => {
     } catch (error) {
       console.log('error', error);
     }
+  };
+
+  const handleSortModelChange = (model: GridSortModel): void => {
+    setSortModal({
+      sort: model?.[0]?.field || '',
+      order: model?.[0]?.sort || '',
+    });
+  };
+
+  const handleActionMenuClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    row: caseData,
+  ) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedMenu(row.caseName);
+  };
+
+  const handleMenuClick = (action: string, id: string) => {
+    updateStatus([id], action).then((res) => {
+      if (res) {
+        fetchCasesData();
+      }
+    });
+    handleMenuClose();
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   const columns: GridColDef[] = [
@@ -113,34 +143,6 @@ const CaseTablePage = (props: TableProps) => {
       ),
     },
   ];
-
-  const handleSortModelChange = (model: GridSortModel): void => {
-    setSortModal({
-      sort: model?.[0]?.field || '',
-      order: model?.[0]?.sort || '',
-    });
-  };
-
-  const handleActionMenuClick = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    row: caseData,
-  ) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedMenu(row.caseName);
-  };
-
-  const handleMenuClick = (action: string, id: string) => {
-    updateStatus([id], action).then((res) => {
-      if (res) {
-        fetchCasesData();
-      }
-    });
-    handleMenuClose();
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
 
   return (
     <Box sx={{ width: '95%', mt: 1 }}>

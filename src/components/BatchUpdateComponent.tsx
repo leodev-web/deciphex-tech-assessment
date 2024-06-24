@@ -1,3 +1,9 @@
+/** 
+ * @description BatchUpdateComponent
+ * BatchUpdateComponent is a component that allows users to perform batch actions on selected cases.
+ * It displays a button that, when clicked, opens a menu with two options: "Accept cases" and "Reject cases".
+ * When a user selects an option, the selected cases are updated with the corresponding status and the component triggers a fetchCasesData function to update the cases data.
+ */
 import React from 'react';
 import {
   ButtonGroup,
