@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Box, Menu, MenuItem } from '@mui/material';
 import {
   DataGrid,
@@ -39,19 +39,20 @@ const CaseTablePage = (props: TableProps) => {
   const { selectionModel, setSelectionModel } = useCaseStore((state) => state);
 
   const location = useLocation();
-  const [status, setStatus] = useState(
-    capitalizeFirstWord(location.pathname.replace('/', '')),
-  );
 
   useEffect(() => {
-    console.log(location.pathname.replace('/', ''));
-    setStatus(capitalizeFirstWord(location.pathname.replace('/', '')));
     setPaginationModal({ page: 0, pageSize: 10 });
+  }, [location]);
+
+
+  const status = useMemo(() => {
+    return capitalizeFirstWord(location.pathname.replace('/', ''));
   }, [location]);
 
   useEffect(() => {
     fetchCasesData();
-  }, [paginationModal, status, searchTerm, sortModal]);
+  }, [paginationModal, searchTerm, sortModal]);
+
 
   const fetchCasesData = async () => {
     try {
