@@ -54,3 +54,10 @@ td:focus {
   border-bottom: none !important;
   border-top: none !important;
 }
+
+[role='gridcell']:last-child {
+  border-bottom: none !important;
+  border-top: none !important;
+}
+
+
