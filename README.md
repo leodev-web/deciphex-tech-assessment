@@ -2,19 +2,20 @@
 
 A web application to view, filter and manage cases.
 
-# Installation
+# Prerequisites
 
-Prerequisites Before you begin, ensure you have Node.js and npm installed on your system. You can download and install Node.js from nodejs.org.
+Before you begin
+
+- Ensure you have Node.js and npm installed on your system. You can download and install Node.js from nodejs.org
+- Clone and run the backend project from https://github.com/johnny-v/my-api/tree/main on `localhost:3000`
+
+# Installation
 
 Step 1: Clone the Repository
 
 Step 2: Navigate to the Project Directory
 
-step 3: Npm Install
-
-# Note
-
-Run the node server in http://localhost:3000 (https://github.com/johnny-v/my-api/tree/main)
+step 3: Run `npm install`
 
 ## Available Scripts
 
