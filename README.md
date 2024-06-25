@@ -1,6 +1,19 @@
-# Getting Started with Create React App
+# Deciphex front end assessment
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A web application to view, filter and manage cases.
+
+# Installation
+Prerequisites Before you begin, ensure you have Node.js and npm installed on your system. You can download and install Node.js from nodejs.org.
+
+Step 1: Clone the Repository
+
+Step 2: Navigate to the Project Directory
+
+step 3: Npm Install
+
+# Note
+
+Run the node server in http://localhost:3000 (https://github.com/johnny-v/my-api/tree/main)
 
 ## Available Scripts
 
@@ -9,15 +22,29 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
+
+
+### `npm lint`
+Lint the codebase.
+
+### `npm run lint:fix`
+Auto-fix linting issues.
+
+### npm run format
+Format the code using using Prettier
 
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm run test:coverage`
+
+Launches the test runner in the interactive watch mode and logs the test coverage report.
 
 ### `npm run build`
 
@@ -39,8 +66,3 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
