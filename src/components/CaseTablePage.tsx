@@ -3,7 +3,7 @@
  * This component renders the table page for displaying cases.
  */
 import React, { useEffect, useMemo, useState } from 'react';
-import { Box, Menu, MenuItem } from '@mui/material';
+import { Box, Menu, MenuItem, Snackbar } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
@@ -13,7 +13,7 @@ import {
 import { tableColumns } from '../types/columns';
 import TableToolBar from './TableToolBar';
 import { fetchData, updateStatus } from '../utils/api';
-import { caseData, CasesResponse } from '../types/types';
+import { caseData, CasesResponse, ToastProps } from '../types/types';
 import { useLocation } from 'react-router-dom';
 import { capitalizeFirstWord } from '../utils/util';
 import { useCaseStore } from '../utils/store';
@@ -41,6 +41,9 @@ const CaseTablePage = (props: TableProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const [selectedMenu, setSelectedMenu] = useState<string>('');
   const { selectionModel, setSelectionModel } = useCaseStore((state) => state);
+  const { toastState, setToastState } = useCaseStore((state) => state);
+
+  const { vertical, horizontal, open } = toastState;
 
   const location = useLocation();
 
@@ -69,7 +72,7 @@ const CaseTablePage = (props: TableProps) => {
       });
       setCases(res);
     } catch (error) {
-      console.log('error', error);
+      setToastState({ ...toastState, open: true });
     }
   };
 
@@ -89,16 +92,24 @@ const CaseTablePage = (props: TableProps) => {
   };
 
   const handleMenuClick = (action: string, id: string) => {
-    updateStatus([id], action).then((res) => {
-      if (res) {
-        fetchCasesData();
-      }
-    });
+    updateStatus([id], action)
+      .then((res) => {
+        if (res) {
+          fetchCasesData();
+        }
+      })
+      .catch(() => {
+        setToastState({ ...toastState, open: true });
+      });
     handleMenuClose();
   };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleToastClose = () => {
+    setToastState({ ...toastState, open: false });
   };
 
   const columns: GridColDef[] = [
@@ -128,16 +139,20 @@ const CaseTablePage = (props: TableProps) => {
             open={Boolean(anchorEl) && selectedMenu === params.row.caseName}
             onClose={handleMenuClose}
           >
-            <MenuItem
-              onClick={() => handleMenuClick('Accepted', params.row.caseName)}
-            >
-              Accept case
-            </MenuItem>
-            <MenuItem
-              onClick={() => handleMenuClick('Rejected', params.row.caseName)}
-            >
-              Reject Case
-            </MenuItem>
+            {params.row.status !== 'Accepted' && (
+              <MenuItem
+                onClick={() => handleMenuClick('Accepted', params.row.caseName)}
+              >
+                Accept case
+              </MenuItem>
+            )}{' '}
+            {params.row.status !== 'Rejected' && (
+              <MenuItem
+                onClick={() => handleMenuClick('Rejected', params.row.caseName)}
+              >
+                Reject Case
+              </MenuItem>
+            )}
           </Menu>
         </StyledActionColumn>
       ),
@@ -145,36 +160,48 @@ const CaseTablePage = (props: TableProps) => {
   ];
 
   return (
-    <Box sx={{ width: '95%', mt: 1 }}>
-      <StyledTypography>{tabelType}</StyledTypography>
-      <TableToolBar fetchCasesData={fetchCasesData} />
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <DataGrid
-          columns={columns}
-          rows={cases?.data || []}
-          getRowId={(row: caseData) => row.caseName}
-          rowCount={cases?.total || 0}
-          // loading={data.rows.length === 0}
-          checkboxSelection
-          onRowSelectionModelChange={(newSelection: GridRowSelectionModel) => {
-            setSelectionModel(newSelection);
-          }}
-          rowSelectionModel={selectionModel}
-          disableRowSelectionOnClick
-          autoHeight
-          paginationModel={paginationModal}
-          pageSizeOptions={[10, 20, 50, 100]}
-          onPaginationModelChange={(model) => setPaginationModal(model)}
-          paginationMode="server"
-          rowHeight={rowHeight}
-          sx={{ width: '80vw', overflow: 'auto', minWidth: '95%' }}
-          sortingMode="server"
-          onSortModelChange={handleSortModelChange}
-          columnVisibilityModel={columnVisibilityModal}
-          getRowClassName={() => `tableRow`}
-        />
+    <>
+      <Box sx={{ width: '95%', mt: 1 }}>
+        <StyledTypography>{tabelType}</StyledTypography>
+        <TableToolBar fetchCasesData={fetchCasesData} />
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <DataGrid
+            columns={columns}
+            rows={cases?.data || []}
+            getRowId={(row: caseData) => row.caseName}
+            rowCount={cases?.total || 0}
+            // loading={data.rows.length === 0}
+            checkboxSelection
+            onRowSelectionModelChange={(
+              newSelection: GridRowSelectionModel,
+            ) => {
+              setSelectionModel(newSelection);
+            }}
+            rowSelectionModel={selectionModel}
+            disableRowSelectionOnClick
+            autoHeight
+            paginationModel={paginationModal}
+            pageSizeOptions={[10, 20, 50, 100]}
+            onPaginationModelChange={(model) => setPaginationModal(model)}
+            paginationMode="server"
+            rowHeight={rowHeight}
+            sx={{ width: '80vw', overflow: 'auto', minWidth: '95%' }}
+            sortingMode="server"
+            onSortModelChange={handleSortModelChange}
+            columnVisibilityModel={columnVisibilityModal}
+            getRowClassName={() => `tableRow`}
+          />
+        </Box>
       </Box>
-    </Box>
+      {/* Error Toast */}
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleToastClose}
+        message="Something went wrong!"
+        key={vertical + horizontal}
+      />
+    </>
   );
 };
 

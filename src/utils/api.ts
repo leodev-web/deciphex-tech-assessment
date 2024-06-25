@@ -24,7 +24,7 @@ export const fetchData = async (params: {
     });
     return res.data;
   } catch (error) {
-    console.log('error', error);
+    throw new Error('Error fetching data');
   }
 };
 
@@ -40,6 +40,6 @@ export const updateStatus = async (
     });
     return res.data;
   } catch (error) {
-    console.log('error', error);
+    throw new Error('Error updating data');
   }
 };

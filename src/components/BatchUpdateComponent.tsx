@@ -28,7 +28,7 @@ const BatchUpdateComponent = ({
   const [selectedIndex, setSelectedIndex] = React.useState(1);
   const [batchBtnOpen, setBatchBtnOpen] = React.useState(false);
   const { selectionModel, setSelectionModel } = useCaseStore((state) => state);
-
+  const {toastState, setToastState} = useCaseStore((state) => state);
   const anchorRef = React.useRef<HTMLDivElement>(null);
 
   const handleMenuItemClick = async (
@@ -38,9 +38,13 @@ const BatchUpdateComponent = ({
     setBatchBtnOpen(false);
     setSelectedIndex(index);
     if (index === 0) {
-      await updateStatus(selectionModel, 'Accepted');
+      await updateStatus(selectionModel, 'Accepted').catch((err) => {
+        setToastState({ ...toastState, open: true });
+      });
     } else {
-      await updateStatus(selectionModel, 'Rejected');
+      await updateStatus(selectionModel, 'Rejected').catch((err) => {
+        setToastState({ ...toastState, open: true });
+      });
     }
     setSelectionModel([]);
     fetchCasesData();

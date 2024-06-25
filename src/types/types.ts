@@ -26,3 +26,9 @@ export enum Status {
   InProgress = 'In Progress',
   Rejected = 'Rejected',
 }
+
+export type ToastProps = {
+  open: boolean;
+  vertical: 'bottom' | 'top';
+  horizontal: 'left' | 'right' | 'center';
+};

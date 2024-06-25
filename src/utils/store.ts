@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { CasesResponse } from '../types/types';
+import { CasesResponse, ToastProps } from '../types/types';
 import { initialColumnVisibilityModel } from '../types/constants';
 import { GridRowSelectionModel } from '@mui/x-data-grid';
 
@@ -28,6 +28,8 @@ export interface CasesState {
   setcolumnVisibilityModal: (visibilityModal: Record<string, boolean>) => void;
   selectionModel: GridRowSelectionModel;
   setSelectionModel: (selectionModel: GridRowSelectionModel) => void;
+  toastState: ToastProps;
+  setToastState: (toastState: ToastProps) => void;
 }
 
 const getVisibilityModal = () => {
@@ -58,4 +60,10 @@ export const useCaseStore = create<CasesState>((set) => ({
     set({ columnVisibilityModal }),
   selectionModel: [],
   setSelectionModel: (selectionModel) => set({ selectionModel }),
+  toastState: {
+    open: false,
+    vertical: 'bottom',
+    horizontal: 'center',
+  },
+  setToastState: (toastState) => set({ toastState }),
 }));
