@@ -13,7 +13,7 @@ import {
 import { tableColumns } from '../types/columns';
 import TableToolBar from './TableToolBar';
 import { fetchData, updateStatus } from '../utils/api';
-import { caseData, CasesResponse, ToastProps } from '../types/types';
+import { caseData, CasesResponse } from '../types/types';
 import { useLocation } from 'react-router-dom';
 import { capitalizeFirstWord } from '../utils/util';
 import { useCaseStore } from '../utils/store';

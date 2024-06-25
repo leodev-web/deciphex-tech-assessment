@@ -1,4 +1,4 @@
-/** 
+/**
  * @description BatchUpdateComponent
  * BatchUpdateComponent is a component that allows users to perform batch actions on selected cases.
  * It displays a button that, when clicked, opens a menu with two options: "Accept cases" and "Reject cases".
@@ -28,7 +28,7 @@ const BatchUpdateComponent = ({
   const [selectedIndex, setSelectedIndex] = React.useState(1);
   const [batchBtnOpen, setBatchBtnOpen] = React.useState(false);
   const { selectionModel, setSelectionModel } = useCaseStore((state) => state);
-  const {toastState, setToastState} = useCaseStore((state) => state);
+  const { toastState, setToastState } = useCaseStore((state) => state);
   const anchorRef = React.useRef<HTMLDivElement>(null);
 
   const handleMenuItemClick = async (
@@ -38,11 +38,11 @@ const BatchUpdateComponent = ({
     setBatchBtnOpen(false);
     setSelectedIndex(index);
     if (index === 0) {
-      await updateStatus(selectionModel, 'Accepted').catch((err) => {
+      await updateStatus(selectionModel, 'Accepted').catch(() => {
         setToastState({ ...toastState, open: true });
       });
     } else {
-      await updateStatus(selectionModel, 'Rejected').catch((err) => {
+      await updateStatus(selectionModel, 'Rejected').catch(() => {
         setToastState({ ...toastState, open: true });
       });
     }

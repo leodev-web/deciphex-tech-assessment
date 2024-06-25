@@ -100,7 +100,7 @@ describe('CaseTablePage', () => {
     mockedAxios.get.mockResolvedValueOnce({ data: { ...mockData } });
     act(() => {
       fireEvent.click(screen.getByText('CASE NAME'));
-    })    
+    });
     await waitFor(() => {
       expect(screen.getByText('All cases')).toBeInTheDocument();
       expect(mockedAxios.get).toHaveBeenCalledWith('/requests', {
@@ -129,13 +129,11 @@ describe('CaseTablePage', () => {
         target: { value: 'test' },
       });
       fireEvent.click(screen.getByRole('button', { name: 'Search' }));
-    })
-  
+    });
+
     await waitFor(() => {
       const rows = screen.getAllByRole('row');
       expect(rows).toHaveLength(1); // 1 for the header row
     });
   });
 });
-
-
