@@ -1,6 +1,6 @@
 # Deciphex front end assessment
 
-A web applocation to view, filter and manage cases.
+A web application to view, filter and manage cases.
 
 # Installation
 Prerequisites Before you begin, ensure you have Node.js and npm installed on your system. You can download and install Node.js from nodejs.org.
